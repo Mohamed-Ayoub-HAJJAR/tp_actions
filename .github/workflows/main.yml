@@ -12,9 +12,9 @@ jobs:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_IP }}
+          host: ${{ secrets.EC2_SERVER }}
           username: your_username
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_EC2 }}
           script: |
             cd /var/www/tp_actions
             git pull origin master
