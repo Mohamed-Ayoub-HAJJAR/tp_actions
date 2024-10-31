@@ -1,19 +1,38 @@
-- name: Deploy to EC2 via SSH
-  uses: appleboy/ssh-action@master
-  with:
-    host: ${{ secrets.EC2_SERVER }}
-    username: ec2-user
-    key: ${{ secrets.SSH_EC2 }}
-    script: |
-      # Si le répertoire existe déjà, le supprimer
-      if [ -d "/var/www/tp_actions" ]; then
-        rm -rf /var/www/tp_actions/*
-      else
-        mkdir -p /var/www/tp_actions
-      fi
-      
-      cd /var/www/tp_actions
-      git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
-      npm install
-      npm start  # Remplace par pm2 start app si tu utilises pm2
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_SERVER }}
+          username: ec2-user
+          key: ${{ secrets.SSH_EC2 }}
+          script: |
+            # Créer le répertoire s'il n'existe pas
+            if [ ! -d "/var/www/tp_actions" ]; then
+              sudo mkdir -p /var/www/tp_actions
+              cd /var/www/tp_actions
+              # Cloner le dépôt Git
+              git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
+            else
+              cd /var/www/tp_actions
+              # Faire un pull pour récupérer les dernières modifications
+              git pull origin master
+            fi
+            
+            # Installer les dépendances
+            npm install
+            
+            # Démarrer l'application
+            npm start  # Remplace par pm2 start app si tu utilises pm2
 
