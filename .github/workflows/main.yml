@@ -19,20 +19,8 @@ jobs:
           key: ${{ secrets.SSH_EC2 }}
           script: |
             # Créer le répertoire s'il n'existe pas
-            if [ ! -d "/var/www/tp_actions" ]; then
-              sudo mkdir -p /var/www/tp_actions
-              cd /var/www/tp_actions
-              # Cloner le dépôt Git
-              git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
-            else
-              cd /var/www/tp_actions
-              # Faire un pull pour récupérer les dernières modifications
-              git pull origin master
-            fi
-            
-            # Installer les dépendances
+            cd /var/www/tp_actions
+            git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
             npm install
-            
-            # Démarrer l'application
-            npm start  # Remplace par pm2 start app si tu utilises pm2
+            npm start 
 
