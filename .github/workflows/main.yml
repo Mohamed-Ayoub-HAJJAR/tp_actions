@@ -13,7 +13,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_SERVER }}
-          username: your_username
+          username: ec2-user
           key: ${{ secrets.SSH_EC2 }}
           script: |
             cd /var/www/tp_actions
