@@ -19,8 +19,21 @@ jobs:
           key: ${{ secrets.SSH_EC2 }}
           script: |
             # Créer le répertoire s'il n'existe pas
+            mkdir -p /var/www/tp_actions
             cd /var/www/tp_actions
-            git pull origin master
+            
+            # Cloner le dépôt si ce n'est pas déjà fait
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
+            else
+              git pull origin master
+            fi
+            
             npm install
-            npm start 
+            
+            # Arrêter l'application si elle est en cours d'exécution
+            sudo kill $(lsof -t -i:3000) || true
+            
+            # Démarrer l'application avec PM2
+            pm2 start index.js --name tp_actions || pm2 restart tp_actions
 
