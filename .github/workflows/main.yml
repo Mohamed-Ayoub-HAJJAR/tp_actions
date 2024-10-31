@@ -20,7 +20,7 @@ jobs:
           script: |
             # Créer le répertoire s'il n'existe pas
             cd /var/www/tp_actions
-            git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
+            git pull origin master
             npm install
             npm start 
 
