@@ -17,6 +17,10 @@ jobs:
           key: ${{ secrets.SSH_EC2 }}
           script: |
             cd /var/www/tp_actions
-            git pull origin master
+            if [ ! -d ".git" ]; then
+        	git https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git . 
+      	    else
+        	git pull origin master
+      	    fi
             npm install
             npm start
