@@ -18,9 +18,10 @@ jobs:
           script: |
             cd /var/www/tp_actions
             if [ ! -d ".git" ]; then
-        	git https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git . 
-      	    else
-        	git pull origin master
-      	    fi
+              git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
+            else
+              git pull origin master
+            fi
             npm install
-            npm start
+            npm start  # Remplace par pm2 start app si tu utilises pm2
+
