@@ -22,12 +22,8 @@ jobs:
             mkdir -p /var/www/tp_actions
             cd /var/www/tp_actions
             
-            # Cloner le dépôt si ce n'est pas déjà fait
-            if [ ! -d ".git" ]; then
-              git clone https://github.com/Mohamed-Ayoub-HAJJAR/tp_actions.git .
-            else
-              git pull origin master
-            fi
+            git pull origin master
+            
             
             npm install
             
